@@ -16,6 +16,7 @@
 
 */
 import React from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 
 // reactstrap components
 import {
@@ -33,6 +34,7 @@ import {
 } from "reactstrap";
 
 function UserProfile() {
+  const navigate = useNavigate()
   return (
     <>
       <div className="content">
@@ -155,9 +157,11 @@ function UserProfile() {
                 </Form>
               </CardBody>
               <CardFooter>
-                <Button className="btn-fill" color="primary" type="submit">
-                  Save
-                </Button>
+                {/* <NavLink to={-1} replace> */}
+                  <Button className="btn-fill" color="primary" type="submit" onClick={() => navigate("/admin/dashboard")}>
+                    Save
+                  </Button>
+                {/* </NavLink> */}
               </CardFooter>
             </Card>
           </Col>

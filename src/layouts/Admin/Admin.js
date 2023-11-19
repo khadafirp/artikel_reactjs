@@ -91,12 +91,13 @@ function Admin(props) {
   };
   const getBrandText = (path) => {
     for (let i = 0; i < routes.length; i++) {
-      if (location.pathname.indexOf(routes[i].layout + routes[i].path) !== -1) {
+      if (path.indexOf(routes[i].layout + routes[i].path) !== -1) {
         return routes[i].name;
       }
     }
     return "Brand";
   };
+  
   return (
     <BackgroundColorContext.Consumer>
       {({ color, changeColor }) => (
@@ -119,15 +120,7 @@ function Admin(props) {
               />
               <Routes>
                 {getRoutes(routes)}
-                <Route
-                  path="/"
-                  element={<Navigate to="/admin/dashboard" replace />}
-                />
               </Routes>
-              {
-                // we don't want the Footer to be rendered on map page
-                location.pathname === "/admin/maps" ? null : <Footer fluid />
-              }
             </div>
           </div>
           <FixedPlugin bgColor={color} handleBgClick={changeColor} />

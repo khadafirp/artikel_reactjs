@@ -26,9 +26,36 @@ import {
   Table,
   Row,
   Col,
+  Button,
+  FormGroup,
 } from "reactstrap";
 
+import Select from "react-select"
+
+import { useNavigate } from "react-router-dom";
+
 function Tables() {
+  const navigate = useNavigate()
+  const options = [
+    { value: "blues", label: "Blues" },
+    { value: "rock", label: "Rock" },
+    { value: "jazz", label: "Jazz" },
+    { value: "orchestra", label: "Orchestra" },
+  ];
+  const customStyles = {
+    option: (defaultStyles, state) => ({
+      ...defaultStyles,
+      color: "#000000"
+    }),
+
+    control: (defaultStyles) => ({
+      ...defaultStyles,
+      backgroundColor: "#212529",
+      border: "none",
+      boxShadow: "none",
+    }),
+    singleValue: (defaultStyles) => ({ ...defaultStyles, color: "#fff" }),
+  };
   return (
     <>
       <div className="content">
@@ -37,6 +64,20 @@ function Tables() {
             <Card>
               <CardHeader>
                 <CardTitle tag="h4">Simple Table</CardTitle>
+                <div style={{ display: "flex" }}>
+                <Col className="px-md-1" md="3">
+                      <FormGroup>
+                        <label>Kategori</label>
+                        <Select
+                          options={options}
+                          styles={customStyles}
+                        />
+                      </FormGroup>
+                    </Col>
+                  <Button className="btn-fill" style={{marginLeft: 'auto'}} color="primary" type="submit" onClick={() => navigate("/admin/user-profil")}>
+                    Artikel Baru
+                  </Button>
+                </div>
               </CardHeader>
               <CardBody>
                 <Table className="tablesorter" responsive>
