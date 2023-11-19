@@ -17,7 +17,7 @@ function Login(){
                     </div>
                     <div className="group">
                         <input id="check" type="checkbox" className="check"/>
-                        <label htmlFor="check"><span className="icon" /> Keep me Signed in</label>
+                        <label htmlFor="check"><span className="icon" />Ingat Saya</label>
                     </div>
                     <div className="group">
                         <input type="submit" className="button" defaultValue="Sign In" />
