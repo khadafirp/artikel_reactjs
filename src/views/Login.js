@@ -1,4 +1,21 @@
-function Login(){
+
+import { connect } from 'react-redux';
+import { setLogin } from 'actions/LoginActions';
+import { useState } from 'react';
+
+function Login({ email, password, endpoint, setLogin }){
+
+    var [emailValue, setEmailValue] = useState(null)
+    var [passwordValue, setPasswordValue] = useState(null)
+
+    function changeEmail(event){
+        setEmailValue(event.target.value)
+    }
+
+    function changePassword(event){
+        setPasswordValue(event.target.value)
+    }
+
     return (
         <div className="content">
             <div className="login-wrap">
@@ -9,18 +26,18 @@ function Login(){
                     <div className="sign-in-htm">
                     <div className="group">
                         <label htmlFor="user" className="label">Username</label>
-                        <input id="user" type="text" className="input" />
+                        <input id="user" type="text" className="input" onChange={changeEmail}/>
                     </div>
                     <div className="group">
                         <label htmlFor="pass" className="label">Password</label>
-                        <input id="pass" type="password" className="input" data-type="password" />
+                        <input id="pass" type="password" className="input" data-type="password" onChange={changePassword} />
                     </div>
                     <div className="group">
                         <input id="check" type="checkbox" className="check"/>
                         <label htmlFor="check"><span className="icon" />Ingat Saya</label>
                     </div>
                     <div className="group">
-                        <input type="submit" className="button" defaultValue="Sign In" />
+                        <input type="submit" className="button" defaultValue="Sign In" onClick={() => setLogin(endpoint, {email: emailValue, password: passwordValue})}/>
                     </div>
                     <div className="hr" />
                     <div className="foot-lnk">
@@ -30,22 +47,22 @@ function Login(){
                     <div className="sign-up-htm">
                     <div className="group">
                         <label htmlFor="user" className="label">Username</label>
-                        <input id="user" type="text" className="input" />
+                        <input id="userDaftar" type="text" className="input" />
                     </div>
                     <div className="group">
                         <label htmlFor="pass" className="label">Password</label>
-                        <input id="pass" type="password" className="input" data-type="password" />
+                        <input id="passDaftar" type="password" className="input" data-type="password" />
                     </div>
                     <div className="group">
                         <label htmlFor="pass" className="label">Repeat Password</label>
-                        <input id="pass" type="password" className="input" data-type="password" />
+                        <input id="passDaftar" type="password" className="input" data-type="password" />
                     </div>
                     <div className="group">
                         <label htmlFor="pass" className="label">Email Address</label>
-                        <input id="pass" type="text" className="input" />
+                        <input id="emailDaftar" type="text" className="input" />
                     </div>
                     <div className="group">
-                        <input type="submit" className="button" defaultValue="Sign Up" />
+                        <input type="submit" className="button" defaultValue="Sign Up"/>
                     </div>
                     <div className="hr" />
                     <div className="foot-lnk">
@@ -58,4 +75,15 @@ function Login(){
         </div>
     )
 }
-export default Login
+
+const mapStateToProps = (state) => ({
+    email: state.login.email,
+    password: state.login.password,
+    endpoint: state.login.endpoint
+  });
+  
+  const mapDispatchToProps = {
+    setLogin
+  };
+  
+  export default connect(mapStateToProps, mapDispatchToProps)(Login)

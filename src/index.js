@@ -17,7 +17,7 @@
 */
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 
 import AdminLayout from "layouts/Admin/Admin.js";
 import RTLLayout from "layouts/RTL/RTL.js";
@@ -31,19 +31,26 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 
 import ThemeContextWrapper from "./components/ThemeWrapper/ThemeWrapper";
 import BackgroundColorWrapper from "./components/BackgroundColorWrapper/BackgroundColorWrapper";
+import { Provider } from "react-redux";
+import stores from "stores";
+import history from "histories";
+import { HistoryRouter as Router } from 'redux-first-history/rr6'
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
-  <ThemeContextWrapper>
-    <BackgroundColorWrapper>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/admin/login-page" element={<Login />} />
-          <Route path="/admin/*" element={<AdminLayout />} />
-          <Route path="/rtl/*" element={<RTLLayout />} />
-        </Routes>
-      </BrowserRouter>
-    </BackgroundColorWrapper>
-  </ThemeContextWrapper>
+
+  <Provider store={stores}>
+    <Router history={history}>
+      <ThemeContextWrapper>
+        <BackgroundColorWrapper>
+          <Routes>
+            <Route path="/admin/login-page" exact element={<Login />} />
+            <Route path="/admin/*" element={<AdminLayout />} />
+            <Route path="/rtl/*" element={<RTLLayout />} />
+          </Routes>
+        </BackgroundColorWrapper>
+      </ThemeContextWrapper>
+    </Router>
+  </Provider>
 );
