@@ -1,12 +1,15 @@
 
 import { connect } from 'react-redux';
-import { setLogin } from 'actions/LoginActions';
+import { setLogin, setDaftar } from 'actions/LoginActions';
 import { useState } from 'react';
 
-function Login({ email, password, endpoint, setLogin }){
+function Login({ endpoint, setLogin, setDaftar }){
 
     var [emailValue, setEmailValue] = useState(null)
     var [passwordValue, setPasswordValue] = useState(null)
+    var [emailDaftar, setEmailDaftar] = useState(null)
+    var [passwordDaftar, setPasswordDaftar] = useState(null)
+    var [namaLengkap, setNamaLengkap] = useState(null)
 
     function changeEmail(event){
         setEmailValue(event.target.value)
@@ -14,6 +17,18 @@ function Login({ email, password, endpoint, setLogin }){
 
     function changePassword(event){
         setPasswordValue(event.target.value)
+    }
+
+    function changeEmailDaftar(event){
+        setEmailDaftar(event.target.value)
+    }
+
+    function changePasswordDaftar(event){
+        setPasswordDaftar(event.target.value)
+    }
+    
+    function changeNamaLengkap(event){
+        setNamaLengkap(event.target.value)
     }
 
     return (
@@ -25,7 +40,7 @@ function Login({ email, password, endpoint, setLogin }){
                 <div className="login-form">
                     <div className="sign-in-htm">
                     <div className="group">
-                        <label htmlFor="user" className="label">Username</label>
+                        <label htmlFor="user" className="label">E-Mail</label>
                         <input id="user" type="text" className="input" onChange={changeEmail}/>
                     </div>
                     <div className="group">
@@ -37,7 +52,7 @@ function Login({ email, password, endpoint, setLogin }){
                         <label htmlFor="check"><span className="icon" />Ingat Saya</label>
                     </div>
                     <div className="group">
-                        <input type="submit" className="button" defaultValue="Sign In" onClick={() => setLogin(endpoint, {email: emailValue, password: passwordValue})}/>
+                        <input type="submit" className="button" defaultValue="Sign In" onClick={() => setLogin(endpoint + 'masuk', {email: emailValue, password: passwordValue})}/>
                     </div>
                     <div className="hr" />
                     <div className="foot-lnk">
@@ -46,23 +61,19 @@ function Login({ email, password, endpoint, setLogin }){
                     </div>
                     <div className="sign-up-htm">
                     <div className="group">
-                        <label htmlFor="user" className="label">Username</label>
-                        <input id="userDaftar" type="text" className="input" />
+                        <label htmlFor="namalengkap" className="label">Nama Lengkap</label>
+                        <input id="namalengkap" type="text" className="input" onChange={changeNamaLengkap}/>
+                    </div>
+                    <div className="group">
+                        <label htmlFor="user" className="label">E-Mail</label>
+                        <input id="userDaftar" type="text" className="input" onChange={changeEmailDaftar}/>
                     </div>
                     <div className="group">
                         <label htmlFor="pass" className="label">Password</label>
-                        <input id="passDaftar" type="password" className="input" data-type="password" />
+                        <input id="passDaftar" type="password" className="input" data-type="password" onChange={changePasswordDaftar}/>
                     </div>
-                    <div className="group">
-                        <label htmlFor="pass" className="label">Repeat Password</label>
-                        <input id="passDaftar" type="password" className="input" data-type="password" />
-                    </div>
-                    <div className="group">
-                        <label htmlFor="pass" className="label">Email Address</label>
-                        <input id="emailDaftar" type="text" className="input" />
-                    </div>
-                    <div className="group">
-                        <input type="submit" className="button" defaultValue="Sign Up"/>
+                    <div className="group" style={{marginTop: '32px'}}>
+                        <input type="submit" className="button" defaultValue="Sign Up" onClick={() => setDaftar(endpoint + 'daftar', {email: emailDaftar, password: passwordDaftar, nama_lengkap: namaLengkap})}/>
                     </div>
                     <div className="hr" />
                     <div className="foot-lnk">
@@ -77,13 +88,12 @@ function Login({ email, password, endpoint, setLogin }){
 }
 
 const mapStateToProps = (state) => ({
-    email: state.login.email,
-    password: state.login.password,
-    endpoint: state.login.endpoint
+    endpoint: state.login.endpoint,
   });
   
   const mapDispatchToProps = {
-    setLogin
+    setLogin,
+    setDaftar
   };
   
   export default connect(mapStateToProps, mapDispatchToProps)(Login)

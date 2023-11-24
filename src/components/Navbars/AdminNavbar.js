@@ -40,7 +40,7 @@ import {
 } from "reactstrap";
 
 function AdminNavbar(props) {
-  const [collapseOpen, setcollapseOpen] = React.useState(false);
+  const [collapseOpen] = React.useState(false);
   const [modalSearch, setmodalSearch] = React.useState(false);
   const [color, setcolor] = React.useState("navbar-transparent");
   React.useEffect(() => {
@@ -58,15 +58,15 @@ function AdminNavbar(props) {
       setcolor("navbar-transparent");
     }
   };
-  // this function opens and closes the collapse on small devices
-  const toggleCollapse = () => {
-    if (collapseOpen) {
-      setcolor("navbar-transparent");
-    } else {
-      setcolor("bg-white");
-    }
-    setcollapseOpen(!collapseOpen);
-  };
+  // // this function opens and closes the collapse on small devices
+  // const toggleCollapse = () => {
+  //   if (collapseOpen) {
+  //     setcolor("navbar-transparent");
+  //   } else {
+  //     setcolor("bg-white");
+  //   }
+  //   setcollapseOpen(!collapseOpen);
+  // };
   // this function is to open the Search modal
   const toggleModalSearch = () => {
     setmodalSearch(!modalSearch);
@@ -138,6 +138,11 @@ function AdminNavbar(props) {
                   </NavLink>
                 </DropdownMenu>
               </UncontrolledDropdown>
+              <DropdownItem style={{
+                color: "white",
+                cursor: 'not-allowed',
+                pointerEvents: 'none'
+              }}>Khadafi Rohman Prihanda</DropdownItem>
               <UncontrolledDropdown nav>
                 <DropdownToggle
                   caret
