@@ -136,3 +136,22 @@
 .foot-lnk{
 	text-align:center;
 }
+
+.button-new {
+	background-color: #04AA6D; /* Green */
+	border: none;
+	color: white;
+	padding: 4px 16px;
+	border-radius: 16px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 12px;
+	margin: 4px 2px;
+	cursor: pointer;
+  }
+  
+  .button-new2 {background-color: #008CBA;} /* Blue */
+  .button-new3 {background-color: #f44336;} /* Red */ 
+  .button-new4 {background-color: #e7e7e7; color: black;} /* Gray */ 
+  .button-new5 {background-color: #555555;} /* Black */

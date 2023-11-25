@@ -15,7 +15,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
+import React, { useState } from "react";
 // nodejs library that concatenates classes
 import classNames from "classnames";
 
@@ -39,10 +39,21 @@ import {
   ModalHeader,
 } from "reactstrap";
 
-function AdminNavbar(props) {
+import { useLocation } from "react-router-dom";
+import routes from "routes.js";
+
+import { connect } from "react-redux";
+import { getProfil } from "actions/ProfilActions";
+
+function AdminNavbar({endpoint, nama_lengkap, getProfil}) {
   const [collapseOpen] = React.useState(false);
   const [modalSearch, setmodalSearch] = React.useState(false);
   const [color, setcolor] = React.useState("navbar-transparent");
+
+  const location = useLocation();
+  const [sidebarOpened, setsidebarOpened] = React.useState(
+    document.documentElement.className.indexOf("nav-open") !== -1
+  );
   React.useEffect(() => {
     window.addEventListener("resize", updateColor);
     // Specify how to clean up after this effect:
@@ -58,19 +69,38 @@ function AdminNavbar(props) {
       setcolor("navbar-transparent");
     }
   };
-  // // this function opens and closes the collapse on small devices
-  // const toggleCollapse = () => {
-  //   if (collapseOpen) {
-  //     setcolor("navbar-transparent");
-  //   } else {
-  //     setcolor("bg-white");
-  //   }
-  //   setcollapseOpen(!collapseOpen);
-  // };
-  // this function is to open the Search modal
   const toggleModalSearch = () => {
     setmodalSearch(!modalSearch);
   };
+
+  // this function opens and closes the sidebar on small devices
+  const toggleSidebar = () => {
+    document.documentElement.classList.toggle("nav-open");
+    setsidebarOpened(!sidebarOpened);
+  };
+
+  const getBrandText = (path) => {
+    for (let i = 0; i < routes.length; i++) {
+      if (path.indexOf(routes[i].layout + routes[i].path) !== -1) {
+        return routes[i].name;
+      }
+    }
+    return "Brand";
+  };
+
+  var [namaLengkap, setNamaLengkap] = useState(null)
+
+  React.useEffect(() => {
+
+    getProfil(
+      endpoint + 'profil-pengguna',
+      {
+        email: localStorage.getItem('email'),
+        password: localStorage.getItem('password')
+      }
+    )
+    setNamaLengkap(nama_lengkap)
+  }, [endpoint, getProfil, nama_lengkap])
   return (
     <>
       <Navbar className={classNames("navbar-absolute", color)} expand="lg">
@@ -78,17 +108,17 @@ function AdminNavbar(props) {
           <div className="navbar-wrapper">
             <div
               className={classNames("navbar-toggle d-inline", {
-                toggled: props.sidebarOpened,
+                toggled: sidebarOpened,
               })}
             >
-              <NavbarToggler onClick={props.toggleSidebar}>
+              <NavbarToggler onClick={toggleSidebar}>
                 <span className="navbar-toggler-bar bar1" />
                 <span className="navbar-toggler-bar bar2" />
                 <span className="navbar-toggler-bar bar3" />
               </NavbarToggler>
             </div>
             <NavbarBrand href="#pablo" onClick={(e) => e.preventDefault()}>
-              {props.brandText}
+              {getBrandText(location.pathname)}
             </NavbarBrand>
           </div>
           <Collapse navbar isOpen={collapseOpen}>
@@ -142,7 +172,9 @@ function AdminNavbar(props) {
                 color: "white",
                 cursor: 'not-allowed',
                 pointerEvents: 'none'
-              }}>Khadafi Rohman Prihanda</DropdownItem>
+              }}>
+                {namaLengkap}
+              </DropdownItem>
               <UncontrolledDropdown nav>
                 <DropdownToggle
                   caret
@@ -194,4 +226,13 @@ function AdminNavbar(props) {
   );
 }
 
-export default AdminNavbar;
+const mapState = (state) => ({
+  nama_lengkap: state.profil.nama_lengkap,
+  endpoint: state.profil.endpoint
+})
+
+const mapDispatch = {
+  getProfil
+}
+
+export default connect(mapState, mapDispatch)(AdminNavbar);
