@@ -15,7 +15,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
+import React, { useState } from "react";
 
 // reactstrap components
 import {
@@ -33,9 +33,12 @@ import {
 import Select from "react-select"
 
 import { useNavigate } from "react-router-dom";
+import { getBerita } from "actions/ArtikelActions";
+import { connect } from "react-redux";
 
-function Tables() {
+function Tables({endpoint, data, getBerita}) {
   const navigate = useNavigate()
+  var no = 1
   const options = [
     { value: "blues", label: "Blues" },
     { value: "rock", label: "Rock" },
@@ -56,6 +59,10 @@ function Tables() {
     }),
     singleValue: (defaultStyles) => ({ ...defaultStyles, color: "#fff" }),
   };
+  React.useEffect(() => {
+    getBerita(endpoint)
+  }, [endpoint, getBerita])
+
   return (
     <>
       <div className="content">
@@ -90,16 +97,22 @@ function Tables() {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>Dakota Rice</td>
-                      <td>Niger</td>
-                      <td>Oud-Turnhout</td>
-                      <td className="text-center">
-                        <button className="button-new">Lihat</button>
-                        <button className="button-new button-new2">Ubah</button>
-                        <button className="button-new button-new3">Hapus</button>
-                      </td>
-                    </tr>
+                    {
+                      data.map((value) => {
+                        return (
+                          <tr>
+                            <td>{no++}</td>
+                            <td>{value.news_title}</td>
+                            <td className="short-desc">{value.news_description}</td>
+                            <td className="text-center">
+                              <button className="button-new">Lihat</button>
+                              <button className="button-new button-new2">Ubah</button>
+                              <button className="button-new button-new3">Hapus</button>
+                            </td>
+                          </tr>
+                        )
+                      })
+                    }
                   </tbody>
                 </Table>
               </CardBody>
@@ -175,4 +188,12 @@ function Tables() {
   );
 }
 
-export default Tables;
+const mapState = (state) => ({
+  data: state.berita.data,
+  endpoint: state.berita.endpoint
+})
+
+const mapDispatch = {
+  getBerita
+}
+export default connect(mapState, mapDispatch)(Tables);

@@ -155,3 +155,14 @@
   .button-new3 {background-color: #f44336;} /* Red */ 
   .button-new4 {background-color: #e7e7e7; color: black;} /* Gray */ 
   .button-new5 {background-color: #555555;} /* Black */
+  
+  .short-desc {
+	width: 200px;
+	border-color: rgba(255, 255, 255, 0.1);
+	padding-top: 16px !important;
+	vertical-align: middle;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	display: inline-block; 
+  }

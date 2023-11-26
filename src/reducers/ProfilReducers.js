@@ -9,7 +9,6 @@ const initialState = {
 const ProfilReducers = (state = initialState, action) => {
     switch (action.type) {
         case 'get-profil':
-            console.log('reducer = ' + JSON.stringify(action.payload))
             return {
                 ...state,
                 email: action.payload.email,

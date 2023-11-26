@@ -12,8 +12,8 @@ export const setLogin = (endpoint, payload) => {
       payload
     ).then(response => {
       try {
+        Swal.hideLoading()
         if(response.data['status-code'] === 200){
-          Swal.hideLoading()
           basicDialogs({
             title: 'Berhasil !',
             text: 'Anda berhasil masuk.',
@@ -22,7 +22,7 @@ export const setLogin = (endpoint, payload) => {
           })
           localStorage.setItem('email', payload.email)
           localStorage.setItem('password', payload.password)
-          localStorage.setItem('token', response.data.data.token)
+          localStorage.setItem('token', response.data.token)
           dispatch(push('/admin/dashboard'))
         } else {
           basicDialogs({
