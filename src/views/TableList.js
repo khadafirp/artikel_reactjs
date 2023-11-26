@@ -40,10 +40,11 @@ function Tables({endpoint, data, getBerita}) {
   const navigate = useNavigate()
   var no = 1
   const options = [
-    { value: "blues", label: "Blues" },
-    { value: "rock", label: "Rock" },
-    { value: "jazz", label: "Jazz" },
-    { value: "orchestra", label: "Orchestra" },
+    { value: null, label: 'Pilih Kategori' },
+    { value: 1, label: "Pemilu" },
+    { value: 2, label: "Keuangan" },
+    { value: 3, label: "Kebutuhan Primer" },
+    { value: 4, label: "Alam" },
   ];
   const customStyles = {
     option: (defaultStyles, state) => ({
@@ -59,6 +60,13 @@ function Tables({endpoint, data, getBerita}) {
     }),
     singleValue: (defaultStyles) => ({ ...defaultStyles, color: "#fff" }),
   };
+
+  var [kategori_id, setKategoriId] = useState(null)
+
+  function changeOption(event){
+    setKategoriId(event.value)
+  }
+
   React.useEffect(() => {
     getBerita(endpoint)
   }, [endpoint, getBerita])
@@ -78,6 +86,7 @@ function Tables({endpoint, data, getBerita}) {
                         <Select
                           options={options}
                           styles={customStyles}
+                          onChange={changeOption}
                         />
                       </FormGroup>
                     </Col>
@@ -98,9 +107,9 @@ function Tables({endpoint, data, getBerita}) {
                   </thead>
                   <tbody>
                     {
-                      data.map((value) => {
+                      (kategori_id === null ? data : data.filter((data) => data.kategori_id.includes(kategori_id))).map((value, i) => {
                         return (
-                          <tr>
+                          <tr key={i}>
                             <td>{no++}</td>
                             <td>{value.news_title}</td>
                             <td className="short-desc">{value.news_description}</td>
