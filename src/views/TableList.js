@@ -95,9 +95,9 @@ function Tables() {
                       <td>Niger</td>
                       <td>Oud-Turnhout</td>
                       <td className="text-center">
-                        <button class="button-new">Lihat</button>
-                        <button class="button-new button-new2">Ubah</button>
-                        <button class="button-new button-new3">Hapus</button>
+                        <button className="button-new">Lihat</button>
+                        <button className="button-new button-new2">Ubah</button>
+                        <button className="button-new button-new3">Hapus</button>
                       </td>
                     </tr>
                   </tbody>

@@ -101,6 +101,11 @@ function AdminNavbar({endpoint, nama_lengkap, getProfil}) {
     )
     setNamaLengkap(nama_lengkap)
   }, [endpoint, getProfil, nama_lengkap])
+
+  function logout(){
+    localStorage.clear()
+    window.location.reload()
+  }
   return (
     <>
       <Navbar className={classNames("navbar-absolute", color)} expand="lg">
@@ -197,7 +202,7 @@ function AdminNavbar({endpoint, nama_lengkap, getProfil}) {
                   </NavLink>
                   <DropdownItem divider tag="li" />
                   <NavLink tag="li">
-                    <DropdownItem className="nav-item">Log out</DropdownItem>
+                    <DropdownItem className="nav-item" onClick={logout}>Log out</DropdownItem>
                   </NavLink>
                 </DropdownMenu>
               </UncontrolledDropdown>
