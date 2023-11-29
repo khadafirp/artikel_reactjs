@@ -120,7 +120,7 @@ function Sidebar(props) {
             <Nav>
               {routes.map((prop, key) => {
                 if (prop.redirect) return null;
-                if(prop.name != "User Profile"){
+                if(prop.name != "User Profile" && prop.name != 'Tambah Artikel'){
                 return (
                   <li
                     className={

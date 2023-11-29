@@ -33,10 +33,10 @@ import {
 import Select from "react-select"
 
 import { useNavigate } from "react-router-dom";
-import { getBerita } from "actions/ArtikelActions";
+import { getBerita, goEdit } from "actions/ArtikelActions";
 import { connect } from "react-redux";
 
-function Tables({endpoint, data, getBerita}) {
+function Tables({endpoint, data, news_id, getBerita, goEdit}) {
   const navigate = useNavigate()
   var no = 1
   const options = [
@@ -62,9 +62,14 @@ function Tables({endpoint, data, getBerita}) {
   };
 
   var [kategori_id, setKategoriId] = useState(null)
+  var [newsId, setNewsId] = useState(null)
 
   function changeOption(event){
     setKategoriId(event.value)
+  }
+
+  function launchEdit(payload){
+    goEdit({news_id: payload})
   }
 
   React.useEffect(() => {
@@ -90,7 +95,7 @@ function Tables({endpoint, data, getBerita}) {
                         />
                       </FormGroup>
                     </Col>
-                  <Button className="btn-fill" style={{marginLeft: 'auto'}} color="primary" type="submit" onClick={() => navigate("/admin/user-profil")}>
+                  <Button className="btn-fill" style={{marginLeft: 'auto'}} color="primary" type="submit" onClick={() => navigate('/admin/form-artikel')}>
                     Artikel Baru
                   </Button>
                 </div>
@@ -115,7 +120,9 @@ function Tables({endpoint, data, getBerita}) {
                             <td className="short-desc">{value.news_description}</td>
                             <td className="text-center">
                               <button className="button-new">Lihat</button>
-                              <button className="button-new button-new2">Ubah</button>
+                              <button className="button-new button-new2" onClick={() => {
+                                launchEdit(value.news_id)
+                              }}>Ubah</button>
                               <button className="button-new button-new3">Hapus</button>
                             </td>
                           </tr>
@@ -199,10 +206,12 @@ function Tables({endpoint, data, getBerita}) {
 
 const mapState = (state) => ({
   data: state.berita.data,
-  endpoint: state.berita.endpoint
+  endpoint: state.berita.endpoint,
+  news_id: state.berita.news_id
 })
 
 const mapDispatch = {
-  getBerita
+  getBerita,
+  goEdit
 }
 export default connect(mapState, mapDispatch)(Tables);

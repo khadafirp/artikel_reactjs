@@ -23,6 +23,7 @@ import Rtl from "views/Rtl.js";
 import TableList from "views/TableList.js";
 import Typography from "views/Typography.js";
 import UserProfile from "views/UserProfile.js";
+import TambahArtikel from 'views/FormArtikel.js'
 
 var routes = [
   {
@@ -63,6 +64,14 @@ var routes = [
     rtlName: "ملف تعريفي للمستخدم",
     icon: "tim-icons icon-single-02",
     component: <UserProfile />,
+    layout: "/admin",
+  },
+  {
+    path: "/form-artikel",
+    name: "Formulir Artikel",
+    rtlName: "ملف تعريفي للمستخدم",
+    icon: "tim-icons icon-single-02",
+    component: <TambahArtikel />,
     layout: "/admin",
   },
   {
