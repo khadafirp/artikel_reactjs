@@ -33,10 +33,10 @@ import {
 import Select from "react-select"
 
 import { useNavigate } from "react-router-dom";
-import { getBerita, goEdit } from "actions/ArtikelActions";
+import { getBerita, goEdit, deleteArtikel } from "actions/ArtikelActions";
 import { connect } from "react-redux";
 
-function Tables({endpoint, data, news_id, getBerita, goEdit}) {
+function Tables({endpoint, data, news_id, getBerita, goEdit, deleteArtikel}) {
   const navigate = useNavigate()
   var no = 1
   const options = [
@@ -123,7 +123,7 @@ function Tables({endpoint, data, news_id, getBerita, goEdit}) {
                               <button className="button-new button-new2" onClick={() => {
                                 launchEdit(value.news_id)
                               }}>Ubah</button>
-                              <button className="button-new button-new3">Hapus</button>
+                              <button className="button-new button-new3" onClick={() => deleteArtikel(endpoint + 'hapus-berita', {news_id: value.news_id})}>Hapus</button>
                             </td>
                           </tr>
                         )
@@ -212,6 +212,7 @@ const mapState = (state) => ({
 
 const mapDispatch = {
   getBerita,
-  goEdit
+  goEdit,
+  deleteArtikel
 }
 export default connect(mapState, mapDispatch)(Tables);
