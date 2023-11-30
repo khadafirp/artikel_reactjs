@@ -31,13 +31,15 @@ import {
   Input,
   Row,
   Col,
+  CustomInput
 } from "reactstrap";
 import Select from "react-select"
 
-import { tambahArtikel, filterArtikel } from "actions/ArtikelActions";
+import { tambahArtikel, filterArtikel, setPath } from "actions/ArtikelActions";
 import { connect } from "react-redux";
+import { replace } from "connected-react-router";
 
-function FormArtikel({endpoint, news_id, kategori_id, news_title, news_description, tambahArtikel, filterArtikel}) {
+function FormArtikel({endpoint, news_id, kategori_id, path, news_title, news_description, tambahArtikel, setPath, filterArtikel}) {
   const navigate = useNavigate()
   const options = [
     { value: null, label: 'Pilih Kategori' },
@@ -62,9 +64,10 @@ function FormArtikel({endpoint, news_id, kategori_id, news_title, news_descripti
   };
 
   var [kategoriId, setKategoriId] = useState(null)
-  var [newsId, setNewsId] = useState(news_id)
   var [newsTitle, setNewsTitle] = useState(null)
   var [newsDescription, setNewsDescription] = useState(null)
+  var [newPath, setNewPath] = useState(path)
+  var [preview, setPreview] = useState(null)
 
   function handleKategoriId(event){
     setKategoriId(event.value)
@@ -76,6 +79,13 @@ function FormArtikel({endpoint, news_id, kategori_id, news_title, news_descripti
 
   function handleNewsDescription(event){
     setNewsDescription(event.target.value)
+  }
+
+  function handleNewPath(event){
+    setNewPath(event)
+    setPath({
+      path: URL.createObjectURL(event)
+    })
   }
 
   React.useEffect(() => {
@@ -119,7 +129,7 @@ function FormArtikel({endpoint, news_id, kategori_id, news_title, news_descripti
                                 onChange={handleNewsTitle}
                                 />
                             </FormGroup>
-                                <FormGroup>
+                              <FormGroup>
                                 <label>Deskripsi</label>
                                 <Input
                                 placeholder="Deskripsi"
@@ -127,20 +137,51 @@ function FormArtikel({endpoint, news_id, kategori_id, news_title, news_descripti
                                 defaultValue={news_description}
                                 onChange={handleNewsDescription}
                                 />
+                                <label>Foto</label>
+                                <CustomInput
+                                placeholder="Foto"
+                                type="file"
+                                style={{borderColor: '#525F7F'}}
+                                accept="image/jpg"
+                                id={'path'}
+                                onChange={(event) => handleNewPath(event.target.files[0])}
+                                />
                             </FormGroup>
                         </Col>
                     </Form>
                 </CardBody>
+                {
+                  path !== null ?
+                  <div style={{
+                    width: '100% !important',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}>
+                    <img src={path} width={'20%'} height={'20%'} alt="Foto"/>
+                  </div>
+                  :
+                  <div></div>
+                }
                 <CardFooter>
-                    {/* <NavLink to={-1} replace> */}
-                    <Button className="btn-fill" color="primary" type="submit" onClick={() => tambahArtikel(endpoint + 'tambah-berita', {
-                        kategori_id: kategoriId,
-                        news_title: newsTitle,
-                        news_description: newsDescription
-                    })}>
-                        Simpan
-                    </Button>
-                    {/* </NavLink> */}
+                    <div style={{
+                      width: '100% !important',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center'
+                    }}>
+                      <Button className="btn-fill" color="primary" type="submit" onClick={() => tambahArtikel(endpoint + 'tambah-berita', {
+                          kategori_id: kategoriId,
+                          news_title: newsTitle,
+                          news_description: newsDescription,
+                          path: newPath
+                      })}>
+                          Simpan
+                      </Button>
+                      <Button className="btn-fill" style={{color: 'red !important'}} type="submit" onClick={() => navigate(-1, replace)}>
+                          Batal
+                      </Button>
+                    </div>
                 </CardFooter>
                 </Card>
             </Col>
@@ -154,12 +195,14 @@ const mapState = (state) => ({
     kategori_id: state.berita.kategori_id,
     news_title: state.berita.news_title,
     news_description: state.berita.news_description,
-    endpoint: state.berita.endpoint
+    endpoint: state.berita.endpoint,
+    path: state.berita.path
 })
 
 const mapDispatch = {
     tambahArtikel,
-    filterArtikel
+    filterArtikel,
+    setPath
 }
 
 export default connect(mapState, mapDispatch)(FormArtikel);
