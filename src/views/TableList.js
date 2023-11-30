@@ -62,7 +62,6 @@ function Tables({endpoint, data, news_id, getBerita, goEdit, deleteArtikel}) {
   };
 
   var [kategori_id, setKategoriId] = useState(null)
-  var [newsId, setNewsId] = useState(null)
 
   function changeOption(event){
     setKategoriId(event.value)

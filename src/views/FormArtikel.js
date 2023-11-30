@@ -16,7 +16,7 @@
 
 */
 import React, { useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 // reactstrap components
 import {
@@ -25,11 +25,9 @@ import {
   CardHeader,
   CardBody,
   CardFooter,
-  CardText,
   FormGroup,
   Form,
   Input,
-  Row,
   Col,
   CustomInput
 } from "reactstrap";
@@ -67,7 +65,6 @@ function FormArtikel({endpoint, news_id, kategori_id, path, news_title, news_des
   var [newsTitle, setNewsTitle] = useState(null)
   var [newsDescription, setNewsDescription] = useState(null)
   var [newPath, setNewPath] = useState(path)
-  var [preview, setPreview] = useState(null)
 
   function handleKategoriId(event){
     setKategoriId(event.value)
