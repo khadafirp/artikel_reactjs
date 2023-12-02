@@ -53,15 +53,21 @@ import {
 import { LineChart } from '@mui/x-charts/LineChart';
 import ReactApexChart from "react-apexcharts";
 
-function Dashboard(props) {
+import { getStatistik } from "actions/DashBoardActions";
+import { connect } from "react-redux";
+
+function Dashboard({data, endpoint, getStatistik}) {
+  const date = new Date();
   const [bigChartData, setbigChartData] = React.useState("data1");
   const setBgChartData = (name) => {
     setbigChartData(name);
     console.log('data = ' + JSON.stringify(chartExample1))
   };
-  const contoh = [
-    {x: 'Jan', y: 80}
-  ]
+
+  React.useEffect(() => {
+    getStatistik(endpoint + 'statistik')
+  }, [endpoint, getStatistik])
+
   return (
     <>
       <div className="content">
@@ -136,37 +142,46 @@ function Dashboard(props) {
               </CardHeader>
               <CardBody>
                 <div className="chart-area">
-                  <ReactApexChart 
+                  {
+                    data === null ?
+                    <div>Data Statistik Tidak Ada</div>
+                    :
+                    <ReactApexChart 
                     options={{
                       title: {
-                        text: 'Total Viewers Perbulan',
+                        text: 'Total Viewers Perbulan di Tahun ' + date.getFullYear(),
                         align: 'left',
                       },
                       chart: {
                         foreColor: '#CECECE'
                       },
                       xaxis: {
-                        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Aug', 'Sep']
+                        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Des']
                       }
                     }} 
                     series={
                       [
                         {
-                            name: "Desktops",
-                            data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
+                          name: "Pemilu",
+                          data: data['1']
                         },
                         {
-                          name: "B",
-                          data: [50, 44, 30, 20, 35, 44, 90, 70, 100]
+                          name: "Keuangan",
+                          data: data['2']
                         },
                         {
-                          name: "C",
-                          data: [30, 90, 60, 80, 85, 24, 30, 80, 110],
+                          name: "Kebutuhan Primer",
+                          data: data['3']
+                        },
+                        {
+                          name: 'Alam',
+                          data: data['4']
                         }
                       ]
                     } 
                     type="line" 
                     height={200} />
+                  }
                 </div>
               </CardBody>
             </Card>
@@ -566,4 +581,13 @@ function Dashboard(props) {
   );
 }
 
-export default Dashboard;
+const mapState = (state) => ({
+  data: state.dashboard.data,
+  endpoint: state.dashboard.endpoint
+})
+
+const mapDispatch = {
+  getStatistik
+}
+
+export default connect(mapState, mapDispatch)(Dashboard);

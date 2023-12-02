@@ -60,14 +60,14 @@ export const tambahArtikel = (endpoint, payload) => {
         data.append('news_title', payload.news_title)
         data.append('news_description', payload.news_description)
         data.append('path', payload.path)
-        if(payload.path.size > 100){
-            basicDialogs({
-                title: 'Perhatian !',
-                text: 'Ukuran file maksimal 100kb',
-                icon: 'warning',
-                confirmButtonText: 'OK'
-            })
-        } else {
+        // if(payload.path.size > 100){
+        //     basicDialogs({
+        //         title: 'Perhatian !',
+        //         text: 'Ukuran file maksimal 100kb',
+        //         icon: 'warning',
+        //         confirmButtonText: 'OK'
+        //     })
+        // } else {
             axios.post(
                 endpoint,
                 data,
@@ -107,7 +107,7 @@ export const tambahArtikel = (endpoint, payload) => {
                     })
                 }
             })
-        }
+        // }
     }
 }
 
