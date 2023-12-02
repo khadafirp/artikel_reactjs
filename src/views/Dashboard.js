@@ -50,11 +50,18 @@ import {
   chartExample4,
 } from "variables/charts.js";
 
+import { LineChart } from '@mui/x-charts/LineChart';
+import ReactApexChart from "react-apexcharts";
+
 function Dashboard(props) {
   const [bigChartData, setbigChartData] = React.useState("data1");
   const setBgChartData = (name) => {
     setbigChartData(name);
+    console.log('data = ' + JSON.stringify(chartExample1))
   };
+  const contoh = [
+    {x: 'Jan', y: 80}
+  ]
   return (
     <>
       <div className="content">
@@ -129,10 +136,37 @@ function Dashboard(props) {
               </CardHeader>
               <CardBody>
                 <div className="chart-area">
-                  <Line
-                    data={chartExample1[bigChartData]}
-                    options={chartExample1.options}
-                  />
+                  <ReactApexChart 
+                    options={{
+                      title: {
+                        text: 'Total Viewers Perbulan',
+                        align: 'left',
+                      },
+                      chart: {
+                        foreColor: '#CECECE'
+                      },
+                      xaxis: {
+                        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Aug', 'Sep']
+                      }
+                    }} 
+                    series={
+                      [
+                        {
+                            name: "Desktops",
+                            data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
+                        },
+                        {
+                          name: "B",
+                          data: [50, 44, 30, 20, 35, 44, 90, 70, 100]
+                        },
+                        {
+                          name: "C",
+                          data: [30, 90, 60, 80, 85, 24, 30, 80, 110],
+                        }
+                      ]
+                    } 
+                    type="line" 
+                    height={200} />
                 </div>
               </CardBody>
             </Card>
