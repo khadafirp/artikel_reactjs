@@ -56,6 +56,9 @@ export const tambahArtikel = (endpoint, payload) => {
     return (dispatch) => {
         Swal.showLoading()
         var data = new FormData()
+        if(payload.news_id !== null){
+            data.append('news_id', payload.news_id)
+        }
         data.append('kategori_id', payload.kategori_id)
         data.append('news_title', payload.news_title)
         data.append('news_description', payload.news_description)

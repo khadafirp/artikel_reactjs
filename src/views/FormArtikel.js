@@ -167,7 +167,9 @@ function FormArtikel({endpoint, news_id, kategori_id, path, news_title, news_des
                       alignItems: 'center',
                       justifyContent: 'center'
                     }}>
-                      <Button className="btn-fill" color="primary" type="submit" onClick={() => tambahArtikel(endpoint + 'tambah-berita', {
+                      <Button className="btn-fill" color="primary" type="submit" onClick={() => tambahArtikel(endpoint + (news_id === null ? 'tambah-berita' : 'edit-berita'), 
+                      {
+                          news_id: news_id,
                           kategori_id: kategoriId,
                           news_title: newsTitle,
                           news_description: newsDescription,
