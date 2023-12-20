@@ -33,11 +33,11 @@ import {
 } from "reactstrap";
 import Select from "react-select"
 
-import { tambahArtikel, filterArtikel, setPath } from "actions/ArtikelActions";
+import { tambahArtikel, filterArtikel, setPath, setDesc, setKategori, setTitle } from "actions/ArtikelActions";
 import { connect } from "react-redux";
 import { replace } from "connected-react-router";
 
-function FormArtikel({endpoint, news_id, kategori_id, path, news_title, news_description, tambahArtikel, setPath, filterArtikel}) {
+function FormArtikel({endpoint, news_id, kategori_id, path, news_title, news_description, tambahArtikel, setPath, filterArtikel, setDesc, setKategori, setTitle}) {
   const navigate = useNavigate()
   const options = [
     { value: null, label: 'Pilih Kategori' },
@@ -61,21 +61,24 @@ function FormArtikel({endpoint, news_id, kategori_id, path, news_title, news_des
     singleValue: (defaultStyles) => ({ ...defaultStyles, color: "#fff" }),
   };
 
-  var [kategoriId, setKategoriId] = useState(null)
-  var [newsTitle, setNewsTitle] = useState(null)
-  var [newsDescription, setNewsDescription] = useState(null)
-  var [newPath, setNewPath] = useState(path)
+  var [newPath, setNewPath] = useState(null)
 
   function handleKategoriId(event){
-    setKategoriId(event.value)
+    setKategori({
+      kategori_id: event.value
+    })
   }
 
   function handleNewsTitle(event){
-    setNewsTitle(event.target.value)
+    setTitle({
+      news_title: event.target.value
+    })
   }
 
   function handleNewsDescription(event){
-    setNewsDescription(event.target.value)
+    setDesc({
+      news_description: event.target.value
+    })
   }
 
   function handleNewPath(event){
@@ -93,7 +96,6 @@ function FormArtikel({endpoint, news_id, kategori_id, path, news_title, news_des
                 news_id: news_id
             }
         )
-        setKategoriId(kategori_id)
     }
   }, [endpoint, filterArtikel, news_id, kategori_id])
 
@@ -115,10 +117,10 @@ function FormArtikel({endpoint, news_id, kategori_id, path, news_title, news_des
                                 <Select
                                 options={options}
                                 value={options.map((value, index) => {
-                                  if(kategoriId == value.value){
+                                  if(kategori_id == value.value){
                                     return {
-                                      value: kategoriId,
-                                      label: kategoriId == value.value ? value.label : "False"
+                                      value: kategori_id,
+                                      label: kategori_id == value.value ? value.label : "False"
                                     }
                                   }
                                 })}
@@ -177,13 +179,20 @@ function FormArtikel({endpoint, news_id, kategori_id, path, news_title, news_des
                       justifyContent: 'center'
                     }}>
                       <Button className="btn-fill" color="primary" type="submit" onClick={() => tambahArtikel(endpoint + (news_id === null ? 'tambah-berita' : 'edit-berita'), 
+                      newPath == null ? 
                       {
-                          news_id: news_id,
-                          kategori_id: kategoriId,
-                          news_title: newsTitle,
-                          news_description: newsDescription,
-                          path: newPath
-                      })}>
+                        news_id: news_id,
+                        kategori_id: kategori_id,
+                        news_title: news_title,
+                        news_description: news_description,
+                      } : {
+                        news_id: news_id,
+                        kategori_id: kategori_id,
+                        news_title: news_title,
+                        news_description: news_description,
+                        path: newPath
+                      }
+                      )}>
                           Simpan
                       </Button>
                       <Button className="btn-fill" style={{color: 'red !important'}} type="submit" onClick={() => navigate(-1, replace)}>
@@ -210,7 +219,10 @@ const mapState = (state) => ({
 const mapDispatch = {
     tambahArtikel,
     filterArtikel,
-    setPath
+    setPath,
+    setTitle, 
+    setKategori,
+    setDesc
 }
 
 export default connect(mapState, mapDispatch)(FormArtikel);

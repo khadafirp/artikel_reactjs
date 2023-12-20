@@ -240,3 +240,18 @@ export const setPath = (payload) => (
         payload: payload
     }
 )
+
+export const setTitle = (payload) => ({
+    type: 'set-title',
+    payload: payload
+})
+
+export const setDesc = (payload) => ({
+    type: 'set-desc',
+    payload: payload
+})
+
+export const setKategori = (payload) => ({
+    type: 'set-kategori',
+    payload: payload
+})

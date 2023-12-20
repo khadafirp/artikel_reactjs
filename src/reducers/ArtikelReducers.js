@@ -37,7 +37,21 @@ const ArtikelReducers = (state = initialState, action) => {
                 ...state,
                 path: action.payload.path
             }
-    
+        case 'set-title':
+            return {
+                ...state,
+                news_title: action.payload.news_title
+            }
+        case 'set-desc':
+            return {
+                ...state,
+                news_description: action.payload.news_description
+            }
+        case 'set-kategori':
+            return {
+                ...state,
+                kategori_id: action.payload.kategori_id
+            }
         default:
             return state
     }
