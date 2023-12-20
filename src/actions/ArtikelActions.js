@@ -32,6 +32,16 @@ export const getBerita = (endpoint) => {
                             data: response.data.data
                         }
                     })
+                    dispatch({
+                        type: 'filter-berita',
+                        payload: {
+                            news_id: null,
+                            news_title: null,
+                            news_description: null,
+                            kategori_id: null,
+                            path: null
+                        }
+                    })
                 } else {
                     basicDialogs({
                         title: 'Gagal !',
@@ -138,7 +148,7 @@ export const filterArtikel = (endpoint, payload) => {
         ).then(response => {
             try {
                 if(response.data['status-code'] === 200){
-                    console.log('path = ' + response.data.data.path)
+                    console.log('path = ' + JSON.stringify(response.data.data))
                     dispatch({
                         type: 'filter-berita',
                         payload: response.data.data

@@ -93,8 +93,9 @@ function FormArtikel({endpoint, news_id, kategori_id, path, news_title, news_des
                 news_id: news_id
             }
         )
+        setKategoriId(kategori_id)
     }
-  }, [endpoint, filterArtikel, news_id])
+  }, [endpoint, filterArtikel, news_id, kategori_id])
 
   return (
     <>
@@ -113,6 +114,14 @@ function FormArtikel({endpoint, news_id, kategori_id, path, news_title, news_des
                                 <label>Kategori</label>
                                 <Select
                                 options={options}
+                                value={options.map((value, index) => {
+                                  if(kategoriId == value.value){
+                                    return {
+                                      value: kategoriId,
+                                      label: kategoriId == value.value ? value.label : "False"
+                                    }
+                                  }
+                                })}
                                 styles={customStyles}
                                 onChange={handleKategoriId}
                                 />
